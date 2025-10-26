@@ -155,85 +155,131 @@ const Dashboard = () => {
             </button>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Course Title
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Upload Date & Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {courses.map((course) => (
-                  <tr 
-                    key={course._id} 
-                    className="hover:bg-gray-50 cursor-pointer transition-colors"
-                    onClick={() => handleCourseClick(course._id)}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900 truncate max-w-xs">
-                            {course.title || course.courseTitle || 'Untitled Course'}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {wasUpdated(course.createdAt, course.updatedAt) ? (
-                          <>
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-1">
-                              Updated {formatUploadDate(course.updatedAt)}
-                            </span>
-                            <div className="text-xs text-gray-500">
-                              Originally uploaded {formatUploadDate(course.createdAt)}
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <span>Uploaded {formatUploadDate(course.createdAt)}</span>
-                            <div className="text-sm text-gray-500">
-                              {course.createdAt ? new Date(course.createdAt).toLocaleTimeString('en-US', { 
-                                hour: '2-digit', 
-                                minute: '2-digit',
-                                hour12: true 
-                              }) : ''}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleCourseClick(course._id);
-                        }}
-                        className="text-blue-600 hover:text-blue-900 transition-colors"
+          <>
+            {/* Desktop table (shown on sm and up) */}
+            <div className="hidden sm:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Course Title
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Upload Date & Status
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {courses.map((course) => (
+                      <tr 
+                        key={course._id} 
+                        className="hover:bg-gray-50 cursor-pointer transition-colors"
+                        onClick={() => handleCourseClick(course._id)}
                       >
-                        View Course
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-10 w-10">
+                              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                              </div>
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900 truncate max-w-xs">
+                                {course.title || course.courseTitle || 'Untitled Course'}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {wasUpdated(course.createdAt, course.updatedAt) ? (
+                              <>
+                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-1">
+                                  Updated {formatUploadDate(course.updatedAt)}
+                                </span>
+                                <div className="text-xs text-gray-500">
+                                  Originally uploaded {formatUploadDate(course.createdAt)}
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <span>Uploaded {formatUploadDate(course.createdAt)}</span>
+                                <div className="text-sm text-gray-500">
+                                  {course.createdAt ? new Date(course.createdAt).toLocaleTimeString('en-US', { 
+                                    hour: '2-digit', 
+                                    minute: '2-digit',
+                                    hour12: true 
+                                  }) : ''}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCourseClick(course._id);
+                            }}
+                            className="text-blue-600 hover:text-blue-900 transition-colors"
+                          >
+                            View Course
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobile cards (shown on small screens) */}
+            <div className="sm:hidden grid gap-4">
+              {courses.map((course) => (
+                <div
+                  key={course._id}
+                  onClick={() => handleCourseClick(course._id)}
+                  className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center">
+                      <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                      </div>
+                      <div className="ml-3">
+                        <div className="text-sm font-medium text-gray-900">
+                          {course.title || course.courseTitle || 'Untitled Course'}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {wasUpdated(course.createdAt, course.updatedAt) ? (
+                            <>Updated {formatUploadDate(course.updatedAt)}</>
+                          ) : (
+                            <>Uploaded {formatUploadDate(course.createdAt)}</>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ml-2">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleCourseClick(course._id); }}
+                        className="text-blue-600 text-sm font-medium"
+                      >
+                        View
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Course Count */}
